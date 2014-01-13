@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Biblioteca bq</string>
     <string name="action_settings">Settings</string>
     <string name="conectar">Conectar con Dropbox</string>
 	<string name="desc">Logo Dropbox</string>
+	<string name="iconoLibro">Icono libro listado</string>
+	<string name="librosEncontrados">Libros encontrados</string>
 </resources>
