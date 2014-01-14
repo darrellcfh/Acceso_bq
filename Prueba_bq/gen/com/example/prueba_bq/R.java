@@ -29,18 +29,20 @@ public final class R {
         public static final int icon=0x7f020002;
     }
     public static final class id {
-        public static final int action_settings=0x7f090006;
+        public static final int action_settings=0x7f090007;
         public static final int autor=0x7f090004;
         public static final int botonConectar=0x7f090000;
         public static final int fecha=0x7f090005;
         public static final int imageView1=0x7f090001;
         public static final int portada=0x7f090002;
+        public static final int portadaGrande=0x7f090006;
         public static final int titulo=0x7f090003;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int item_biblioteca=0x7f030001;
         public static final int listado_biblioteca=0x7f030002;
+        public static final int portada_layout=0x7f030003;
     }
     public static final class menu {
         public static final int main=0x7f080000;
@@ -51,7 +53,8 @@ public final class R {
         public static final int conectar=0x7f060002;
         public static final int desc=0x7f060003;
         public static final int iconoLibro=0x7f060004;
-        public static final int librosEncontrados=0x7f060005;
+        public static final int librosEncontrados=0x7f060006;
+        public static final int portadaLibro=0x7f060005;
     }
     public static final class style {
         /** 

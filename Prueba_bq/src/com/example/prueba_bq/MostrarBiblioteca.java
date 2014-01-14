@@ -11,10 +11,17 @@ import java.util.List;
 
 import nl.siegmann.epublib.domain.Book;
 import nl.siegmann.epublib.epub.EpubReader;
+import android.app.Dialog;
 import android.app.ListActivity;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
+import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 
 import com.dropbox.sync.android.DbxAccountManager;
 import com.dropbox.sync.android.DbxException;
@@ -24,7 +31,7 @@ import com.dropbox.sync.android.DbxFileInfo;
 import com.dropbox.sync.android.DbxFileSystem;
 import com.dropbox.sync.android.DbxPath;
 
-public class MostrarBiblioteca extends ListActivity{
+public class MostrarBiblioteca extends ListActivity implements OnItemClickListener{
 	
 	private List<DbxFileInfo> listaEpubsInfo;
 	private List<Epub> listaEpubs;
@@ -34,6 +41,8 @@ public class MostrarBiblioteca extends ListActivity{
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ListView lv = getListView();
+        lv.setOnItemClickListener(this);
         mDbxAcctMgr = DbxAccountManager.getInstance(getApplicationContext(), MainActivity.APP_KEY, MainActivity.APP_SECRET);
         // Obtenemos el filesystem de la cuenta Dropbox. 
         DbxFileSystem dbxFs = null;
@@ -65,9 +74,7 @@ public class MostrarBiblioteca extends ListActivity{
 		} catch (Exception e) {
 			Util.mostrarAlerta(this, "Error de conexión", "Error al conectar con Dropbox");
 			e.printStackTrace();
-		}
-		
-		
+		}	
 	}
 	
 	// Recorre todos los directorios de la cuenta Dropbox y obtiene los ficheros *.epub
@@ -87,7 +94,15 @@ public class MostrarBiblioteca extends ListActivity{
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-	
-	
-    
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		Dialog imageDialog = new Dialog(this);
+		imageDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+		imageDialog.setContentView(getLayoutInflater().inflate(R.layout.portada_layout, null));
+		ImageView portada = (ImageView) imageDialog.findViewById(R.id.portadaGrande);
+		if(listaEpubs.get(position).getPortada() != null)
+			portada.setImageBitmap(listaEpubs.get(position).getPortada());
+		imageDialog.show();
+	}
 }

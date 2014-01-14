@@ -5,5 +5,6 @@
     <string name="conectar">Conectar con Dropbox</string>
 	<string name="desc">Logo Dropbox</string>
 	<string name="iconoLibro">Icono libro listado</string>
+	<string name="portadaLibro">Portada libro seleccionado</string>
 	<string name="librosEncontrados">Libros encontrados</string>
 </resources>
