@@ -7,4 +7,6 @@
 	<string name="iconoLibro">Icono libro listado</string>
 	<string name="portadaLibro">Portada libro seleccionado</string>
 	<string name="librosEncontrados">Libros encontrados</string>
+	<string name="ordenarPorFecha">Ordenar por Fecha</string>
+	<string name="ordenarPorTitulo">Ordenar por Título</string>
 </resources>

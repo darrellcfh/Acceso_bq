@@ -7,6 +7,8 @@ package com.example.prueba_bq;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import nl.siegmann.epublib.domain.Book;
@@ -16,11 +18,12 @@ import android.app.ListActivity;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.dropbox.sync.android.DbxAccountManager;
@@ -36,13 +39,27 @@ public class MostrarBiblioteca extends ListActivity implements OnItemClickListen
 	private List<DbxFileInfo> listaEpubsInfo;
 	private List<Epub> listaEpubs;
 	private DbxAccountManager mDbxAcctMgr;
-	
+	private Comparator<Epub> comparadorFecha, comparadorTitulo;
+	AdaptorEpub adaptor;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ListView lv = getListView();
         lv.setOnItemClickListener(this);
+        
+        // Definimos los comparadores, que servirán para ordenar los elementos según las dos opciones.
+        comparadorFecha = new Comparator<Epub>() {
+			public int compare(Epub epub1,Epub epub2) {
+				return epub1.getFecha().compareTo(epub2.getFecha());
+			}
+		};
+		comparadorTitulo = new Comparator<Epub>() {
+			public int compare(Epub epub1,Epub epub2) {
+				return epub1.getTitulo().compareTo(epub2.getTitulo());
+			}
+		};
+        
         mDbxAcctMgr = DbxAccountManager.getInstance(getApplicationContext(), MainActivity.APP_KEY, MainActivity.APP_SECRET);
         // Obtenemos el filesystem de la cuenta Dropbox. 
         DbxFileSystem dbxFs = null;
@@ -70,7 +87,8 @@ public class MostrarBiblioteca extends ListActivity implements OnItemClickListen
 						book.getCoverImage() != null ? BitmapFactory.decodeStream(book.getCoverImage().getInputStream()) : null));
 				epubFile.close();
 			}
-			setListAdapter(new AdaptorEpub(this, listaEpubs));
+			adaptor = new AdaptorEpub(this, listaEpubs);
+			setListAdapter(adaptor);
 		} catch (Exception e) {
 			Util.mostrarAlerta(this, "Error de conexión", "Error al conectar con Dropbox");
 			e.printStackTrace();
@@ -87,13 +105,6 @@ public class MostrarBiblioteca extends ListActivity implements OnItemClickListen
 				obtenerEpubs(archivo.path, dbxFs);
 		}
     }
-	
-	@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -104,5 +115,26 @@ public class MostrarBiblioteca extends ListActivity implements OnItemClickListen
 		if(listaEpubs.get(position).getPortada() != null)
 			portada.setImageBitmap(listaEpubs.get(position).getPortada());
 		imageDialog.show();
+	}
+	
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item){
+		switch(item.getItemId()){
+		case R.id.ordenarPorFecha:
+			Collections.sort(listaEpubs, comparadorFecha);
+			break;
+		case R.id.ordenarPorTitulo:
+			Collections.sort(listaEpubs, comparadorTitulo);
+			break;
+		}
+		adaptor.notifyDataSetChanged();
+		return true;
 	}
 }

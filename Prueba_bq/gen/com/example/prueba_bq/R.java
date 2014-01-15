@@ -29,11 +29,12 @@ public final class R {
         public static final int icon=0x7f020002;
     }
     public static final class id {
-        public static final int action_settings=0x7f090007;
         public static final int autor=0x7f090004;
         public static final int botonConectar=0x7f090000;
         public static final int fecha=0x7f090005;
         public static final int imageView1=0x7f090001;
+        public static final int ordenarPorFecha=0x7f090007;
+        public static final int ordenarPorTitulo=0x7f090008;
         public static final int portada=0x7f090002;
         public static final int portadaGrande=0x7f090006;
         public static final int titulo=0x7f090003;
@@ -54,6 +55,8 @@ public final class R {
         public static final int desc=0x7f060003;
         public static final int iconoLibro=0x7f060004;
         public static final int librosEncontrados=0x7f060006;
+        public static final int ordenarPorFecha=0x7f060007;
+        public static final int ordenarPorTitulo=0x7f060008;
         public static final int portadaLibro=0x7f060005;
     }
     public static final class style {
